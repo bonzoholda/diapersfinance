@@ -36,7 +36,7 @@ const Menu = () => {
             target="_blank"
             mb={3}
             variant="link"
-            icon={<Icon as={CustomIcon} color="gray.400" w={6} h={6} />}
+            icon={<CustomIcon />} color="gray.400" w={6} h={6} />}
           />
         </Tooltip>
         <Tooltip label="Telegram">
