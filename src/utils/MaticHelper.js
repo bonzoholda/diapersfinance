@@ -22,7 +22,7 @@ const ERC20ABI = [
 
 //Mainnet
 const provider = new ethers.providers.JsonRpcProvider(
-  'https://rpc-mainnet.maticvigil.com'
+  'https://polygon-bor-rpc.publicnode.com'
 );
 const dyprTokenAddress = '0x92fF563cE14fC62A5A87961CaBf1f98748fbBaEe'; //
 const shitPoolAddress = '0x22762a8a33b7Cb7c52AfAD5096B3b0790DE1c649'; //
