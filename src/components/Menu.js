@@ -1,6 +1,5 @@
 import { HStack, Flex, Icon, IconButton, Tooltip } from '@chakra-ui/react';
 import { FaTelegram, FaTwitter, FaGamepad } from 'react-icons/fa';
-import React from 'react';
 import customIcon from './src/assets/shitbotlogo.svg';
 
 const CustomIcon = () => <img src={customIcon} alt="Custom Icon" width={24} height={24} />;
@@ -37,7 +36,7 @@ const Menu = () => {
             target="_blank"
             mb={3}
             variant="link"
-            icon={<Icon as={customIcon} color="gray.400" w={6} h={6} />}
+            icon={<Icon as={CustomIcon} color="gray.400" w={6} h={6} />}
           />
         </Tooltip>
         <Tooltip label="Telegram">
