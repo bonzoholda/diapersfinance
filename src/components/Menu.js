@@ -1,7 +1,7 @@
 import { HStack, Flex, Icon, IconButton, Tooltip } from '@chakra-ui/react';
 import { FaTelegram, FaTwitter, FaGamepad } from 'react-icons/fa';
 import React from 'react';
-import customIcon from './assets/shitbotlogo.svg';
+import customIcon from './src/assets/shitbotlogo.svg';
 
 const CustomIcon = () => <img src={customIcon} alt="Custom Icon" width={24} height={24} />;
 
