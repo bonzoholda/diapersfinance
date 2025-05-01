@@ -26,10 +26,10 @@ const Menu = () => {
         justifyContent="flex-end"
         alignItems="baseline"
       >
-        <Tooltip label="Rock Paper Scissors">
+        <Tooltip label="ShitbotDEXtrader">
           <IconButton
             as="a"
-            href="https://rps.diapers.finance"
+            href="https://bonzoholda.github.io/shitbot-site/"
             target="_blank"
             mb={3}
             variant="link"
