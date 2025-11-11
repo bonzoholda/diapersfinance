@@ -259,14 +259,31 @@ export const getWYPEPrice = async () => {
   const price = USDCReserve / WYPEReserve;
   return price;
 };
+
 export const getMATICPrice = async () => {
-  const response = (
-    await axios.get(
-      'https://www.okx.com/api/v5/market/candles?instId=POL-USDT'
-    )
-  ).data;
-  return response['matic-network'].usd;
+  try {
+    const response = await axios.get(
+      // The CORRECTED URL for the new POL token is used here
+      'https://www.okx.com/api/v5/market/candles?instId=POL-USDT&bar=1m' 
+      // I also added a 1-minute bar parameter for the latest price
+    );
+    
+    // Check for success (code '0') and ensure data is present
+    if (response.data.code !== '0' || !response.data.data || response.data.data.length === 0) {
+      throw new Error(`OKX API Error: ${response.data.msg || 'No data returned'}`);
+    }
+
+    // FIX: Access the latest candle array (index 0) and the Close Price (index 4)
+    const latestPrice = response.data.data[0][4]; 
+    
+    return parseFloat(latestPrice);
+    
+  } catch (error) {
+    console.error("Error fetching POL price:", error);
+    return null; 
+  }
 };
+
 export const buyDYPRTx = async (amountIn, amountOut, signer, address) => {
   const fixedAmount = Number(amountIn).toFixedDown(18).toFixed(18);
   let tx = await quickSwapRouterContract.connect(signer).swapExactETHForTokens(
