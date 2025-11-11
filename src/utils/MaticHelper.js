@@ -262,7 +262,7 @@ export const getWYPEPrice = async () => {
 export const getMATICPrice = async () => {
   const response = (
     await axios.get(
-      'https://www.okx.com/api/v5/market/candles?instId="POL-USDT"&bar="1h"&limit=50'
+      'https://www.okx.com/api/v5/market/candles?instId=POL-USDT'
     )
   ).data;
   return response['matic-network'].usd;
