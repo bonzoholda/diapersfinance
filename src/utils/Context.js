@@ -11,7 +11,7 @@ const web3Modal = new Web3Modal({
       package: WalletConnectProvider, // required
       options: {
         rpc: {
-          137: 'https://polygon-bor-rpc.publicnode.com',
+          137: 'https://polygon-rpc.com',
         },
         supportedChainIds: [137],
       },
@@ -31,7 +31,7 @@ const ContextProvider = ({ children }) => {
       params: [
         {
           chainId: '0x89',
-          rpcUrls: ['https://polygon-bor-rpc.publicnode.com'],
+          rpcUrls: ['https://polygon-rpc.com'],
           chainName: 'Polygon',
           nativeCurrency: {
             name: 'MATIC',
