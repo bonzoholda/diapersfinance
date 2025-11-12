@@ -267,7 +267,7 @@ export const getMATICPrice = async () => {
     const POLYGON_RPC = "https://polygon-rpc.com";
 
     // Official Chainlink POL/USD feed address
-    const FEED_ADDRESS = "0x60fAa7faC949aF392DFc858F5d97E3EEfa07E9EB";
+    const FEED_ADDRESS = "0xab594600376Ec9fD91F8e885dadf0ce036862de0";
 
     // Minimal ABI to read latest price
     const aggregatorV3InterfaceABI = [
