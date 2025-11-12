@@ -260,29 +260,49 @@ export const getWYPEPrice = async () => {
   return price;
 };
 
+
 export const getMATICPrice = async () => {
   try {
-    const response = await axios.get(
-      // The CORRECTED URL for the new POL token is used here
-      'https://www.okx.com/api/v5/market/candles?instId=POL-USDT&bar=1m' 
-      // I also added a 1-minute bar parameter for the latest price
-    );
-    
-    // Check for success (code '0') and ensure data is present
-    if (response.data.code !== '0' || !response.data.data || response.data.data.length === 0) {
-      throw new Error(`OKX API Error: ${response.data.msg || 'No data returned'}`);
-    }
+    // Polygon mainnet RPC (free and public)
+    const POLYGON_RPC = "https://polygon-rpc.com";
 
-    // FIX: Access the latest candle array (index 0) and the Close Price (index 4)
-    const latestPrice = response.data.data[0][4]; 
-    
-    return parseFloat(latestPrice);
-    
+    // Official Chainlink POL/USD feed address
+    const FEED_ADDRESS = "0x0003a845b2e108468ec6f42a5c88609082e9ec86fe9d2529c9e5f8af440079f8";
+
+    // Minimal ABI to read latest price
+    const aggregatorV3InterfaceABI = [
+      {
+        "inputs": [],
+        "name": "latestRoundData",
+        "outputs": [
+          { "name": "roundId", "type": "uint80" },
+          { "name": "answer", "type": "int256" },
+          { "name": "startedAt", "type": "uint256" },
+          { "name": "updatedAt", "type": "uint256" },
+          { "name": "answeredInRound", "type": "uint80" }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      }
+    ];
+
+    // Connect to Polygon RPC
+    const provider = new ethers.JsonRpcProvider(POLYGON_RPC);
+    const priceFeed = new ethers.Contract(FEED_ADDRESS, aggregatorV3InterfaceABI, provider);
+
+    // Call latestRoundData from Chainlink oracle
+    const roundData = await priceFeed.latestRoundData();
+
+    // Convert from 8-decimal Chainlink format
+    const price = Number(roundData.answer) / 1e8;
+
+    return price;
   } catch (error) {
-    console.error("Error fetching POL price:", error);
-    return null; 
+    console.error("Error fetching POL/USD price from Chainlink:", error);
+    return null;
   }
 };
+
 
 export const buyDYPRTx = async (amountIn, amountOut, signer, address) => {
   const fixedAmount = Number(amountIn).toFixedDown(18).toFixed(18);
