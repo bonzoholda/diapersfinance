@@ -64,16 +64,24 @@ const colors = {
 const config = {
   initialColorMode: 'dark',
 };
+const fonts = {
+  heading: `'Plus Jakarta Sans', 'Inter', -apple-system, sans-serif`,
+  body: `'Inter', -apple-system, BlinkMacSystemFont, sans-serif`,
+};
+
 const styles = {
   global: {
     'html, body': {
       backgroundColor: '#0B0217',
+      fontFamily: fonts.body,
       minHeight: '100vh',
       overflowX: 'hidden',
     },
   },
 };
-const theme = extendTheme({ config, colors, styles });
+
+// Gabungkan fonts ke dalam extendTheme
+const theme = extendTheme({ config, colors, styles, fonts });
 
 const initialeDataDYPR = {
   addressDYPRBalance: 0,
