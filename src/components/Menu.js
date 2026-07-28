@@ -1,6 +1,5 @@
 import { HStack, Flex, Icon, IconButton, Tooltip } from '@chakra-ui/react';
-import { FaTelegram, FaTwitter, FaRobot } from 'react-icons/fa';
-import { SiBinance } from "react-icons/si";
+import { FaTelegram, FaTwitter, FaRobot, FaKorvue } from 'react-icons/fa';
 
 const PolygonLogo = () => {
   return (
@@ -34,7 +33,7 @@ const Menu = () => {
             target="_blank"
             mb={3}
             variant="link"
-            icon={<Icon as={SiBinance} color="gray.400" w={6} h={6} />}
+            icon={<Icon as={FaKorvue} color="gray.400" w={6} h={6} />}
           />
         </Tooltip>
         <Tooltip label="Telegram">
