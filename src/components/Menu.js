@@ -1,5 +1,6 @@
 import { HStack, Flex, Icon, IconButton, Tooltip } from '@chakra-ui/react';
 import { FaTelegram, FaTwitter, FaRobot } from 'react-icons/fa';
+import { SiBinance } from "react-icons/si";
 
 const PolygonLogo = () => {
   return (
@@ -26,14 +27,14 @@ const Menu = () => {
         justifyContent="flex-end"
         alignItems="baseline"
       >
-        <Tooltip label="ShitbotDEXtrader">
+        <Tooltip label="KDIA - new project on BSC">
           <IconButton
             as="a"
-            href="https://bonzoholda.github.io/shitbot-site/"
+            href="https://kdiaweb.netlify.app"
             target="_blank"
             mb={3}
             variant="link"
-            icon={<Icon as={FaRobot} color="gray.400" w={6} h={6} />}
+            icon={<Icon as={SiBinance} color="gray.400" w={6} h={6} />}
           />
         </Tooltip>
         <Tooltip label="Telegram">
