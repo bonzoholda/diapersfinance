@@ -84,6 +84,7 @@ const GOLD = ({
         w="100%"
         justifyContent="center"
       >
+        {/* DESKTOP VIEW */}
         <Show above="md">
           <HStack spacing={20}>
             <HStack
@@ -132,7 +133,7 @@ const GOLD = ({
                 </ButtonGroup>
               </VStack>
 
-              {/* Stat 1: Price */}
+              {/* Stat 1: Price (Desktop) */}
               <VStack spacing={0} align="flex-start">
                 <Text
                   fontSize="xs"
@@ -252,6 +253,7 @@ const GOLD = ({
           </HStack>
         </Show>
 
+        {/* MOBILE VIEW */}
         <Show breakpoint="(max-width: 767px)">
           <VStack spacing={4}>
             <VStack>
@@ -303,6 +305,7 @@ const GOLD = ({
             </VStack>
             <Wrap spacingX={8} spacingY={4} justify="center">
               <WrapItem>
+                {/* Stat 1: Price (Mobile - Updated to 10 POL) */}
                 <VStack spacing={0} align="center">
                   <Text
                     fontSize="xs"
@@ -324,7 +327,7 @@ const GOLD = ({
                       color="white"
                       fontFeatureSettings='"tnum"'
                     >
-                      10 MATIC
+                      10 POL
                     </Text>
                   </Skeleton>
                   <Skeleton
