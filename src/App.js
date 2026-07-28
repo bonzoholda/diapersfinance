@@ -54,6 +54,8 @@ const styles = {
   global: {
     'html, body': {
       backgroundColor: colors.brand.purple,
+      backgroundImage: 'radial-gradient(circle at 50% 20%, #3b007d 0%, #1E0042 100%)',
+      minHeight: '100vh',
     },
   },
 };
