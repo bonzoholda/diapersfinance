@@ -31,7 +31,7 @@ const ContextProvider = ({ children }) => {
       params: [
         {
           chainId: '0x89',
-          rpcUrls: ['https://polygon-rpc.com'],
+          rpcUrls: ['https://rpc.private.mev-x.com/polygon'],
           chainName: 'Polygon',
           nativeCurrency: {
             name: 'MATIC',
