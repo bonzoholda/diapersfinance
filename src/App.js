@@ -10,6 +10,7 @@ import {
   Box,
   useToast,
   Container,
+  keyframes,
 } from '@chakra-ui/react';
 
 import Menu from './components/Menu';
@@ -28,6 +29,19 @@ import {
   refreshAllDataGoldenShit,
   refreshStatsGoldenShit,
 } from './utils/MaticHelper';
+
+// Animasi gerak mengapung halus untuk glowing orbs
+const floatAnimation = keyframes`
+  0% { transform: translate(0px, 0px) scale(1); }
+  50% { transform: translate(40px, -50px) scale(1.1); }
+  100% { transform: translate(0px, 0px) scale(1); }
+`;
+
+const floatReverseAnimation = keyframes`
+  0% { transform: translate(0px, 0px) scale(1); }
+  50% { transform: translate(-40px, 50px) scale(0.95); }
+  100% { transform: translate(0px, 0px) scale(1); }
+`;
 
 const colors = {
   brand: {
@@ -53,9 +67,9 @@ const config = {
 const styles = {
   global: {
     'html, body': {
-      backgroundColor: colors.brand.purple,
-      backgroundImage: 'radial-gradient(circle at 50% 20%, #3b007d 0%, #1E0042 100%)',
+      backgroundColor: '#0B0217',
       minHeight: '100vh',
+      overflowX: 'hidden',
     },
   },
 };
@@ -104,6 +118,7 @@ function App() {
   const [loadingGoldenShit, setLoadingGoldenShit] = useState(false);
   const [loadingStatsGoldenShit, setLoadingStatsGoldenShit] = useState(false);
   const toast = useToast();
+
   useEffect(() => {
     let interval;
     if (address) {
@@ -124,6 +139,7 @@ function App() {
       clearTimeout(interval);
     };
   }, [address]);
+
   useEffect(() => {
     refreshPriceAndPoolBalanceDYPR(true);
     refreshPriceAndPoolBalanceWYPE(true);
@@ -137,6 +153,7 @@ function App() {
       clearTimeout(interval);
     };
   }, []);
+
   const refreshDataDYPR = async showLoading => {
     if (showLoading) {
       setLoadingDYPR(true);
@@ -148,6 +165,7 @@ function App() {
       setLoadingDYPR(false);
     }
   };
+
   const refreshDataWYPE = async showLoading => {
     if (showLoading) {
       setLoadingWYPE(true);
@@ -159,6 +177,7 @@ function App() {
       setLoadingWYPE(false);
     }
   };
+
   const refreshDataGoldenShit = async showLoading => {
     if (showLoading) {
       setLoadingGoldenShit(true);
@@ -170,6 +189,7 @@ function App() {
       setLoadingGoldenShit(false);
     }
   };
+
   const refreshPriceAndPoolBalanceDYPR = async showLoading => {
     if (showLoading) {
       setLoadingStatsDYPR(true);
@@ -181,6 +201,7 @@ function App() {
       setLoadingStatsDYPR(false);
     }
   };
+
   const refreshPriceAndPoolBalanceWYPE = async showLoading => {
     if (showLoading) {
       setLoadingStatsWYPE(true);
@@ -192,6 +213,7 @@ function App() {
       setLoadingStatsWYPE(false);
     }
   };
+
   const refreshPoolBalanceAndCirculatingSupplyGoldenShitFarm =
     async showLoading => {
       if (showLoading) {
@@ -204,6 +226,7 @@ function App() {
         setLoadingStatsGoldenShit(false);
       }
     };
+
   const successToast = text => {
     toast({
       title: text,
@@ -212,6 +235,7 @@ function App() {
       isClosable: true,
     });
   };
+
   const infoToast = text => {
     toast({
       title: text,
@@ -220,6 +244,7 @@ function App() {
       isClosable: true,
     });
   };
+
   const errorToast = text => {
     toast({
       title: 'An error has occured',
@@ -229,106 +254,108 @@ function App() {
       isClosable: true,
     });
   };
+
   return (
     <ChakraProvider theme={theme}>
-      <Container maxW="5xl">
-        <Flex minH="100vh" py={10} direction="column">
-          <Menu />
-          <VStack spacing={10} justifyContent="center">
-            <Image
-              src={require('./assets/DiapersFinance-logo.png')}
-              pointerEvents="none"
-              h="150"
-              zIndex={2}
-            />
-            <WalletButton />
-            <DYPR
-              data={dataDYPR}
-              stats={statsDYPR}
-              loading={loadingDYPR}
-              loadingStats={loadingStatsDYPR}
-              refreshData={refreshDataDYPR}
-              refreshPriceAndPoolBalance={refreshPriceAndPoolBalanceDYPR}
-              successToast={successToast}
-              infoToast={infoToast}
-              errorToast={errorToast}
-            />
-            <WYPE
-              data={dataWYPE}
-              DYPRBalance={dataDYPR.addressDYPRBalance}
-              stats={statsWYPE}
-              loading={loadingWYPE}
-              loadingStats={loadingStatsWYPE}
-              refreshData={refreshDataWYPE}
-              refreshPriceAndPoolBalance={refreshPriceAndPoolBalanceWYPE}
-              successToast={successToast}
-              infoToast={infoToast}
-              errorToast={errorToast}
-            />
-            <GOLD
-              data={dataGoldenShit}
-              stats={statsGoldenShit}
-              MATICPrice={statsDYPR.MATICPrice}
-              MATICBalance={dataDYPR.addressMATICBalance}
-              WYPEPrice={statsWYPE.WYPEPrice}
-              loading={loadingGoldenShit}
-              loadingStats={loadingStatsGoldenShit}
-              refreshData={refreshDataGoldenShit}
-              refreshPoolBalanceAndCirculatingSupply={
-                refreshPoolBalanceAndCirculatingSupplyGoldenShitFarm
-              }
-              refreshPriceAndPoolBalanceWYPE={refreshPriceAndPoolBalanceWYPE}
-              successToast={successToast}
-              infoToast={infoToast}
-              errorToast={errorToast}
-            />
-          </VStack>
-        </Flex>
-      </Container>
-      <Image
-        src={require('./assets/Ellipse.png')}
-        position="fixed"
-        top={0}
-        left="50%"
-        transform="translate(-80%, -50%)"
-        zIndex="0"
-        pointerEvents="none"
-        h="1000px"
-        w="1000px"
-      />
-      <Image
-        src={require('./assets/Ellipse.png')}
-        position="fixed"
-        bottom={0}
-        left="50%"
-        pointerEvents="none"
-        transform="translate(0%, 50%)"
-        zIndex="0"
-        h="1000px"
-        w="1000px"
-      />
-      <Image
-        src={require('./assets/Dots.png')}
-        position="absolute"
-        top={30}
-        left="15%"
-        pointerEvents="none"
-        transform="translate(-50%, 0%)"
-        zIndex="0"
-        h="30px"
-        w="30px"
-      />
-      <Image
-        src={require('./assets/Dots.png')}
-        position="absolute"
-        bottom={30}
-        left="75%"
-        pointerEvents="none"
-        transform="translate(-50%, 0%)"
-        zIndex="0"
-        h="30px"
-        w="30px"
-      />
+      <Box position="relative" w="100%" minH="100vh" overflow="hidden">
+        {/* Pola Grid Halus Modern */}
+        <Box
+          position="fixed"
+          inset={0}
+          backgroundImage="radial-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px)"
+          backgroundSize="28px 28px"
+          pointerEvents="none"
+          zIndex={0}
+        />
+
+        {/* Ambient Glowing Orb Atas (Ungu Utama) */}
+        <Box
+          position="fixed"
+          top="-15%"
+          left="20%"
+          w="650px"
+          h="650px"
+          bg="#4A00B8"
+          filter="blur(160px)"
+          opacity={0.45}
+          borderRadius="full"
+          animation={`${floatAnimation} 14s ease-in-out infinite`}
+          pointerEvents="none"
+          zIndex={0}
+        />
+
+        {/* Ambient Glowing Orb Bawah (Aksen Orange/Brand) */}
+        <Box
+          position="fixed"
+          bottom="-10%"
+          right="15%"
+          w="550px"
+          h="550px"
+          bg="#F69D19"
+          filter="blur(180px)"
+          opacity={0.25}
+          borderRadius="full"
+          animation={`${floatReverseAnimation} 18s ease-in-out infinite`}
+          pointerEvents="none"
+          zIndex={0}
+        />
+
+        {/* Konten Aplikasi Utama */}
+        <Container maxW="5xl" position="relative" zIndex={1}>
+          <Flex minH="100vh" py={10} direction="column">
+            <Menu />
+            <VStack spacing={10} justifyContent="center">
+              <Image
+                src={require('./assets/DiapersFinance-logo.png')}
+                pointerEvents="none"
+                h="150"
+                zIndex={2}
+              />
+              <WalletButton />
+              <DYPR
+                data={dataDYPR}
+                stats={statsDYPR}
+                loading={loadingDYPR}
+                loadingStats={loadingStatsDYPR}
+                refreshData={refreshDataDYPR}
+                refreshPriceAndPoolBalance={refreshPriceAndPoolBalanceDYPR}
+                successToast={successToast}
+                infoToast={infoToast}
+                errorToast={errorToast}
+              />
+              <WYPE
+                data={dataWYPE}
+                DYPRBalance={dataDYPR.addressDYPRBalance}
+                stats={statsWYPE}
+                loading={loadingWYPE}
+                loadingStats={loadingStatsWYPE}
+                refreshData={refreshDataWYPE}
+                refreshPriceAndPoolBalance={refreshPriceAndPoolBalanceWYPE}
+                successToast={successToast}
+                infoToast={infoToast}
+                errorToast={errorToast}
+              />
+              <GOLD
+                data={dataGoldenShit}
+                stats={statsGoldenShit}
+                MATICPrice={statsDYPR.MATICPrice}
+                MATICBalance={dataDYPR.addressMATICBalance}
+                WYPEPrice={statsWYPE.WYPEPrice}
+                loading={loadingGoldenShit}
+                loadingStats={loadingStatsGoldenShit}
+                refreshData={refreshDataGoldenShit}
+                refreshPoolBalanceAndCirculatingSupply={
+                  refreshPoolBalanceAndCirculatingSupplyGoldenShitFarm
+                }
+                refreshPriceAndPoolBalanceWYPE={refreshPriceAndPoolBalanceWYPE}
+                successToast={successToast}
+                infoToast={infoToast}
+                errorToast={errorToast}
+              />
+            </VStack>
+          </Flex>
+        </Container>
+      </Box>
     </ChakraProvider>
   );
 }
