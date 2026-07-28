@@ -4,19 +4,23 @@ import Web3Modal from 'web3modal';
 import WalletConnectProvider from '@walletconnect/web3-provider';
 
 export const Context = createContext();
+
+// Menggunakan RPC publik yang lebih stabil atau URL Alchemy/Infura Anda
+const POLYGON_RPC_URL = 'https://polygon-rpc.com';
+
 const web3Modal = new Web3Modal({
-  cacheProvider: true, // optional
+  cacheProvider: true,
   providerOptions: {
     walletconnect: {
-      package: WalletConnectProvider, // required
+      package: WalletConnectProvider,
       options: {
         rpc: {
-          137: 'https://polygon-rpc.keccak.io',
+          137: POLYGON_RPC_URL,
         },
         supportedChainIds: [137],
       },
     },
-  }, // required
+  },
 });
 
 const ContextProvider = ({ children }) => {
@@ -25,17 +29,22 @@ const ContextProvider = ({ children }) => {
   const [signer, setSigner] = useState(null);
   const [wrongChain, setWrongChain] = useState(false);
   const [address, setAddress] = useState('');
-  const askForMaticChain = provider => {
+
+  const askForMaticChain = (provider) => {
     provider.provider.request({
       method: 'wallet_addEthereumChain',
       params: [
         {
-          chainId: '0x89',
-          rpcUrls: ['https://polygon-rpc.keccak.io'],
-          chainName: 'Polygon',
+          chainId: '0x89', // Hexadecimal untuk chain ID 137
+          chainName: 'Polygon Mainnet',
+          rpcUrls: [
+            POLYGON_RPC_URL,
+            'https://rpc-mainnet.maticvigil.com',
+            'https://rpc.ankr.com/polygon',
+          ],
           nativeCurrency: {
-            name: 'MATIC',
-            symbol: 'MATIC',
+            name: 'POL', // Catatan: Polygon berpindah nama simbol dari MATIC ke POL
+            symbol: 'POL',
             decimals: 18,
           },
           blockExplorerUrls: ['https://polygonscan.com/'],
@@ -43,9 +52,16 @@ const ContextProvider = ({ children }) => {
       ],
     });
   };
+
   const connectWallet = async () => {
-    setInstance(await web3Modal.connect());
+    try {
+      const modalInstance = await web3Modal.connect();
+      setInstance(modalInstance);
+    } catch (error) {
+      console.error('Gagal menghubungkan wallet:', error);
+    }
   };
+
   const disconnectWallet = async () => {
     setWallet(null);
     setSigner(null);
@@ -54,25 +70,24 @@ const ContextProvider = ({ children }) => {
     web3Modal.clearCachedProvider();
     window.location.reload(false);
   };
+
   useEffect(() => {
     if (web3Modal.cachedProvider.length > 0) {
       connectWallet();
     }
   }, []);
+
   useEffect(() => {
-    const newInstance = async () => {
+    const handleProviderSetup = async () => {
       if (!instance || !instance.on) return;
-      instance.on('accountsChanged', async accounts => {
-        console.log('accountsChanged', accounts);
-        if (accounts.length === 0) {
-          setWallet(null);
-          setSigner(null);
-          setAddress(null);
-          setWrongChain(false);
-          web3Modal.clearCachedProvider();
-        } else {
-          let provider = new ethers.providers.Web3Provider(instance);
-          let chainId = (await provider.getNetwork()).chainId;
+
+      const provider = new ethers.providers.Web3Provider(instance);
+
+      const setupNetworkAndAccount = async () => {
+        try {
+          const network = await provider.getNetwork();
+          const chainId = network.chainId;
+
           if (!(chainId === 137 || chainId === 80001 || chainId === 31337)) {
             askForMaticChain(provider);
             setWallet(provider);
@@ -81,76 +96,50 @@ const ContextProvider = ({ children }) => {
             setWrongChain(true);
             return;
           }
+
+          const accounts = await provider.listAccounts();
           setWallet(provider);
           setSigner(provider.getSigner());
-          setAddress((await provider.listAccounts())[0]);
+          setAddress(accounts[0] || null);
           setWrongChain(false);
+        } catch (error) {
+          console.error('Error saat setup provider:', error);
         }
-      });
-      // Subscribe to chainId change
-      instance.on('chainChanged', async () => {
-        let provider = new ethers.providers.Web3Provider(instance);
-        let chainId = (await provider.getNetwork()).chainId;
-        console.log('chainChanged', chainId);
-        if (!(chainId === 137 || chainId === 80001 || chainId === 31337)) {
-          askForMaticChain(provider);
-          setWallet(provider);
-          setSigner(provider.getSigner());
-          setAddress(null);
-          setWrongChain(true);
-          return;
+      };
+
+      // Event listener
+      instance.on('accountsChanged', (accounts) => {
+        console.log('accountsChanged', accounts);
+        if (accounts.length === 0) {
+          disconnectWallet();
         } else {
-          setWallet(provider);
-          setSigner(provider.getSigner());
-          setAddress((await provider.listAccounts())[0]);
-          setWrongChain(false);
+          setupNetworkAndAccount();
         }
       });
 
-      // Subscribe to provider connection
-      instance.on('connect', async info => {
-        console.log('connect', info);
-        let provider = new ethers.providers.Web3Provider(instance);
-        let chainId = (await provider.getNetwork()).chainId;
-        // console.log('chainChanged', chainId);
-        if (!(chainId === 137 || chainId === 80001 || chainId === 31337)) {
-          askForMaticChain(provider);
-          setWallet(provider);
-          setSigner(provider.getSigner());
-          setAddress(null);
-          setWrongChain(true);
-          return;
-        } else {
-          setWallet(provider);
-          setSigner(provider.getSigner());
-          setAddress((await provider.listAccounts())[0]);
-          setWrongChain(false);
-        }
+      instance.on('chainChanged', () => {
+        console.log('chainChanged');
+        setupNetworkAndAccount();
       });
-      // Subscribe to provider disconnection
-      instance.on('disconnect', error => {
+
+      instance.on('connect', (info) => {
+        console.log('connect', info);
+        setupNetworkAndAccount();
+      });
+
+      instance.on('disconnect', (error) => {
         console.log('disconnect', error);
         setWallet(null);
         setSigner(null);
       });
-      let provider = new ethers.providers.Web3Provider(instance);
-      let chainId = (await provider.getNetwork()).chainId;
-      if (!(chainId === 137 || chainId === 80001 || chainId === 31337)) {
-        askForMaticChain(provider);
-        setWallet(provider);
-        setSigner(provider.getSigner());
-        setAddress(null);
-        setWrongChain(true);
-        return;
-      } else {
-        setWallet(provider);
-        setSigner(provider.getSigner());
-        setAddress((await provider.listAccounts())[0]);
-        setWrongChain(false);
-      }
+
+      // Jalankan pertama kali saat instance tersedia
+      await setupNetworkAndAccount();
     };
-    newInstance();
+
+    handleProviderSetup();
   }, [instance]);
+
   return (
     <Context.Provider
       value={{
