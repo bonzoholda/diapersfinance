@@ -70,7 +70,7 @@ const GOLD = ({
       boxShadow="0 8px 32px 0 rgba(0, 0, 0, 0.25)"
       px={6}
       py={5}
-      color="white" // Diubah ke white agar teks lebih terbaca di atas kaca gelap
+      color="white"
       justifyContent="flex-start"
       alignItems="center"
       flexDirection="column"
@@ -88,7 +88,7 @@ const GOLD = ({
           <HStack spacing={20}>
             <HStack
               spacing={10}
-              divider={<StackDivider borderColor="gray.200" />}
+              divider={<StackDivider borderColor="whiteAlpha.300" />}
             >
               <VStack>
                 <Image
@@ -131,74 +131,111 @@ const GOLD = ({
                   </Tooltip>
                 </ButtonGroup>
               </VStack>
-              <VStack spacing={0}>
-                <Text fontWeight="semibold" as="span">
+
+              {/* Stat 1: Price */}
+              <VStack spacing={0} align="flex-start">
+                <Text
+                  fontSize="xs"
+                  fontWeight="normal"
+                  color="whiteAlpha.700"
+                  textTransform="uppercase"
+                  letterSpacing="wider"
+                >
                   Price
                 </Text>
-                <Text fontWeight="semibold" as="span">
-                  <HStack>
-                    <Skeleton
-                      isLoaded={!loadingStats}
-                      startColor="brand.orange"
-                      endColor="brand.purple"
-                    >
-                      10 MATIC
-                    </Skeleton>
-                  </HStack>
-                </Text>
-                <Text as="span">
-                  <Skeleton
-                    isLoaded={!loadingStats}
-                    startColor="brand.orange"
-                    endColor="brand.purple"
+                <Skeleton
+                  isLoaded={!loadingStats}
+                  startColor="brand.orange"
+                  endColor="brand.purple"
+                >
+                  <Text
+                    fontSize="xl"
+                    fontWeight="bold"
+                    color="white"
+                    fontFeatureSettings='"tnum"'
                   >
+                    10 MATIC
+                  </Text>
+                </Skeleton>
+                <Skeleton
+                  isLoaded={!loadingStats}
+                  startColor="brand.orange"
+                  endColor="brand.purple"
+                >
+                  <Text fontSize="xs" color="whiteAlpha.600" fontFeatureSettings='"tnum"'>
                     ({numeral(10 * MATICPrice).format('$0,0.00')})
-                  </Skeleton>
-                </Text>
+                  </Text>
+                </Skeleton>
               </VStack>
-              <VStack spacing={0}>
-                <Text fontWeight="semibold" as="span">
+
+              {/* Stat 2: Circulating Supply */}
+              <VStack spacing={0} align="flex-start">
+                <Text
+                  fontSize="xs"
+                  fontWeight="normal"
+                  color="whiteAlpha.700"
+                  textTransform="uppercase"
+                  letterSpacing="wider"
+                >
                   Circulating supply
                 </Text>
-                <Text fontWeight="semibold" as="span">
-                  <HStack>
-                    <Skeleton
-                      isLoaded={!loadingStats}
-                      startColor="brand.orange"
-                      endColor="brand.purple"
-                    >
-                      {goldenShitCirculatingSupply}
-                    </Skeleton>
-                  </HStack>
-                </Text>
+                <Skeleton
+                  isLoaded={!loadingStats}
+                  startColor="brand.orange"
+                  endColor="brand.purple"
+                >
+                  <Text
+                    fontSize="xl"
+                    fontWeight="bold"
+                    color="white"
+                    fontFeatureSettings='"tnum"'
+                  >
+                    {goldenShitCirculatingSupply}
+                  </Text>
+                </Skeleton>
               </VStack>
-              <VStack spacing={0}>
-                <Text fontWeight="semibold" as="span">
+
+              {/* Stat 3: Pool Balance */}
+              <VStack spacing={0} align="flex-start">
+                <Text
+                  fontSize="xs"
+                  fontWeight="normal"
+                  color="whiteAlpha.700"
+                  textTransform="uppercase"
+                  letterSpacing="wider"
+                >
                   Pool Balance
                 </Text>
-                <Text fontWeight="semibold" as="span">
-                  <HStack>
-                    <Skeleton
-                      isLoaded={!loadingStats}
-                      startColor="brand.orange"
-                      endColor="brand.purple"
+                <Skeleton
+                  isLoaded={!loadingStats}
+                  startColor="brand.orange"
+                  endColor="brand.purple"
+                >
+                  <HStack spacing={1.5} align="baseline">
+                    <Text
+                      fontSize="xl"
+                      fontWeight="bold"
+                      color="white"
+                      fontFeatureSettings='"tnum"'
                     >
                       {formatter3.format(wypeShitFarmBalance)}
-                    </Skeleton>
-                    <Text as="span">WYPE</Text>
+                    </Text>
+                    <Text fontSize="xs" fontWeight="semibold" color="brand.orange">
+                      WYPE
+                    </Text>
                   </HStack>
-                </Text>
-                <Text as="span">
-                  <Skeleton
-                    isLoaded={!loadingStats}
-                    startColor="brand.orange"
-                    endColor="brand.purple"
-                  >
+                </Skeleton>
+                <Skeleton
+                  isLoaded={!loadingStats}
+                  startColor="brand.orange"
+                  endColor="brand.purple"
+                >
+                  <Text fontSize="xs" color="whiteAlpha.600" fontFeatureSettings='"tnum"'>
                     (
                     {numeral(wypeShitFarmBalance * WYPEPrice).format('$0,0.00')}
                     )
-                  </Skeleton>
-                </Text>
+                  </Text>
+                </Skeleton>
               </VStack>
             </HStack>
             <IconButton
@@ -206,7 +243,7 @@ const GOLD = ({
               icon={
                 <Icon
                   as={isOpen ? FaChevronUp : FaChevronDown}
-                  color="brand.purple"
+                  color="whiteAlpha.800"
                   w={6}
                   h={6}
                 />
@@ -214,8 +251,9 @@ const GOLD = ({
             />
           </HStack>
         </Show>
+
         <Show breakpoint="(max-width: 767px)">
-          <VStack>
+          <VStack spacing={4}>
             <VStack>
               <Image
                 src={require('../assets/gold.png')}
@@ -256,89 +294,120 @@ const GOLD = ({
                 icon={
                   <Icon
                     as={isOpen ? FaChevronUp : FaChevronDown}
-                    color="brand.purple"
+                    color="whiteAlpha.800"
                     w={6}
                     h={6}
                   />
                 }
               />
             </VStack>
-            <Wrap spacingX={10} justify="center">
+            <Wrap spacingX={8} spacingY={4} justify="center">
               <WrapItem>
-                <VStack spacing={0}>
-                  <Text fontWeight="semibold" as="span">
+                <VStack spacing={0} align="center">
+                  <Text
+                    fontSize="xs"
+                    fontWeight="normal"
+                    color="whiteAlpha.700"
+                    textTransform="uppercase"
+                    letterSpacing="wider"
+                  >
                     Price
                   </Text>
-                  <Text fontWeight="semibold" as="span">
-                    <HStack>
-                      <Skeleton
-                        isLoaded={!loadingStats}
-                        startColor="brand.orange"
-                        endColor="brand.purple"
-                      >
-                        10 MATIC
-                      </Skeleton>
-                    </HStack>
-                  </Text>
-                  <Text as="span">
-                    <Skeleton
-                      isLoaded={!loadingStats}
-                      startColor="brand.orange"
-                      endColor="brand.purple"
+                  <Skeleton
+                    isLoaded={!loadingStats}
+                    startColor="brand.orange"
+                    endColor="brand.purple"
+                  >
+                    <Text
+                      fontSize="xl"
+                      fontWeight="bold"
+                      color="white"
+                      fontFeatureSettings='"tnum"'
                     >
+                      10 MATIC
+                    </Text>
+                  </Skeleton>
+                  <Skeleton
+                    isLoaded={!loadingStats}
+                    startColor="brand.orange"
+                    endColor="brand.purple"
+                  >
+                    <Text fontSize="xs" color="whiteAlpha.600" fontFeatureSettings='"tnum"'>
                       ({numeral(10 * MATICPrice).format('$0,0.00')})
-                    </Skeleton>
-                  </Text>
+                    </Text>
+                  </Skeleton>
                 </VStack>
               </WrapItem>
               <WrapItem>
-                <VStack spacing={0}>
-                  <Text fontWeight="semibold" as="span">
+                <VStack spacing={0} align="center">
+                  <Text
+                    fontSize="xs"
+                    fontWeight="normal"
+                    color="whiteAlpha.700"
+                    textTransform="uppercase"
+                    letterSpacing="wider"
+                  >
                     Circulating supply
                   </Text>
-                  <Text fontWeight="semibold" as="span">
-                    <HStack>
-                      <Skeleton
-                        isLoaded={!loadingStats}
-                        startColor="brand.orange"
-                        endColor="brand.purple"
-                      >
-                        {goldenShitCirculatingSupply}
-                      </Skeleton>
-                    </HStack>
-                  </Text>
+                  <Skeleton
+                    isLoaded={!loadingStats}
+                    startColor="brand.orange"
+                    endColor="brand.purple"
+                  >
+                    <Text
+                      fontSize="xl"
+                      fontWeight="bold"
+                      color="white"
+                      fontFeatureSettings='"tnum"'
+                    >
+                      {goldenShitCirculatingSupply}
+                    </Text>
+                  </Skeleton>
                 </VStack>
               </WrapItem>
               <WrapItem>
-                <VStack spacing={0}>
-                  <Text fontWeight="semibold" as="span">
+                <VStack spacing={0} align="center">
+                  <Text
+                    fontSize="xs"
+                    fontWeight="normal"
+                    color="whiteAlpha.700"
+                    textTransform="uppercase"
+                    letterSpacing="wider"
+                  >
                     Pool Balance
                   </Text>
-                  <Text fontWeight="semibold" as="span">
-                    <HStack>
-                      <Skeleton
-                        isLoaded={!loadingStats}
-                        startColor="brand.orange"
-                        endColor="brand.purple"
+                  <Skeleton
+                    isLoaded={!loadingStats}
+                    startColor="brand.orange"
+                    endColor="brand.purple"
+                  >
+                    <HStack spacing={1.5} align="baseline">
+                      <Text
+                        fontSize="xl"
+                        fontWeight="bold"
+                        color="white"
+                        fontFeatureSettings='"tnum"'
                       >
                         {formatter3.format(wypeShitFarmBalance)}
-                      </Skeleton>
-                      <Text as="span">WYPE</Text>
+                      </Text>
+                      <Text fontSize="xs" fontWeight="semibold" color="brand.orange">
+                        WYPE
+                      </Text>
                     </HStack>
-                  </Text>
-                  <Text as="span">
-                    <Skeleton
-                      isLoaded={!loadingStats}
-                      startColor="brand.orange"
-                      endColor="brand.purple"
-                    >
+                  </Skeleton>
+                  <Skeleton
+                    isLoaded={!loadingStats}
+                    startColor="brand.orange"
+                    endColor="brand.purple"
+                  >
+                    <Text fontSize="xs" color="whiteAlpha.600" fontFeatureSettings='"tnum"'>
                       (
                       {numeral(wypeShitFarmBalance * WYPEPrice).format(
                         '$0,0.00'
                       )}
                       )
-                    </Skeleton>
-                  </Text>
+                    </Text>
+                  </Skeleton>
                 </VStack>
               </WrapItem>
             </Wrap>
