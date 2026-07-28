@@ -7,6 +7,9 @@ import { QuickSwapRouterABI } from './QuickSwapRouterABI';
 import { WypeShitFarmABI } from './WypeShitFarmABI';
 import axios from 'axios';
 
+// Import our centralized Fallback Provider
+import { getFallbackProvider } from './rpcConfig';
+
 const pairABI = [
   'function price0CumulativeLast() external view returns (uint)',
   'function price1CumulativeLast() external view returns (uint)',
@@ -20,37 +23,23 @@ const ERC20ABI = [
   'function allowance(address owner, address spender) public view returns (uint256)',
 ];
 
-//Mainnet
-const provider = new ethers.providers.JsonRpcProvider(
-  'https://polygon-bor-rpc.publicnode.com'
-);
-const dyprTokenAddress = '0x92fF563cE14fC62A5A87961CaBf1f98748fbBaEe'; //
-const shitPoolAddress = '0x22762a8a33b7Cb7c52AfAD5096B3b0790DE1c649'; //
-const pairAddressDYPR = '0xF5643d91CE7b1Fb1e01A7a15E7b9977e9A0d4E77'; //
+// Mainnet Contract Addresses
+const dyprTokenAddress = '0x92fF563cE14fC62A5A87961CaBf1f98748fbBaEe';
+const shitPoolAddress = '0x22762a8a33b7Cb7c52AfAD5096B3b0790DE1c649';
+const pairAddressDYPR = '0xF5643d91CE7b1Fb1e01A7a15E7b9977e9A0d4E77';
 const wypeTokenAddress = '0x9fACF2F2Bc061Ceb2f3Cd68B0917e98F590E8ea6';
 const wypePoolAddress = '0x47b15Da820c2CCe99a3299669C02849122ab02de';
 const pairAddressWYPE = '0x59Ec17F69Ebcf42c75e171df98853d42c17E7F1D';
-const quickSwapRouterAddress = '0xa5E0829CaCEd8fFDD4De3c43696c57F7D7A678ff'; //
-const WMATICAddress = '0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270'; //
-const USDCAddress = '0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174'; //
+const quickSwapRouterAddress = '0xa5E0829CaCEd8fFDD4De3c43696c57F7D7A678ff';
+const WMATICAddress = '0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270';
+const USDCAddress = '0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174';
 const wypeShitFarmAddress = '0xD960aE078DD5b3Ef676abEf7F03b2ae12A56f1F2';
 const oldWypeVaultAddress = '0xc8ba578e05c1931c82788004f8fe85933b668bad';
 
-// Testnet
-// const provider = new ethers.providers.JsonRpcProvider(
-//   'https://matic-testnet-archive-rpc.bwarelabs.com'
-// );
-// const dyprTokenAddress = '0x0FADF8b7dF2508A36CD0c536b98d206a2C9aee5b';
-// const shitPoolAddress = '0xA5048Ff327ee59DE539888A96603da63089fd20d';
-// const pairAddressDYPR = '0x3cD4678cf32b7D8Ea80b8c0d921Fecd4a49A8dac';
-// const wypeTokenAddress = '0x97181e51383492cecBcc4dAaA034c6A3f792d9A5';
-// const wypePoolAddress = '0x036ea534f80ec13776a82ABcF68BC6563B241421';
-// const pairAddressWYPE = '0x7D4dF57c5D779dFD03fe362b5C4c47dccE2D3F03';
-// const quickSwapRouterAddress = '0x8954AfA98594b838bda56FE4C12a09D7739D179b';
-// const WMATICAddress = '0x9c3C9283D3e44854697Cd22D3Faa240Cfb032889';
-// const USDCAddress = '0x9c3C9283D3e44854697Cd22D3Faa240Cfb032889';
-// const wypeShitFarmAddress = '0xA2138AFEb91d386Ba37e8d9DFa0e49277EcAcA77';
+// Initialize Provider using Centralized Fallback Strategy
+const provider = getFallbackProvider();
 
+// Contract Instances using Fallback Provider
 const dyprTokenContract = new ethers.Contract(
   dyprTokenAddress,
   DYPRTokenABI,
@@ -263,19 +252,14 @@ export const getWYPEPrice = async () => {
 export const getMATICPrice = async () => {
   try {
     const response = await axios.get(
-      // The CORRECTED URL for the new POL token is used here
       'https://www.okx.com/api/v5/market/candles?instId=POL-USDT&bar=1m' 
-      // I also added a 1-minute bar parameter for the latest price
     );
     
-    // Check for success (code '0') and ensure data is present
     if (response.data.code !== '0' || !response.data.data || response.data.data.length === 0) {
       throw new Error(`OKX API Error: ${response.data.msg || 'No data returned'}`);
     }
 
-    // FIX: Access the latest candle array (index 0) and the Close Price (index 4)
     const latestPrice = response.data.data[0][4]; 
-    
     return parseFloat(latestPrice);
     
   } catch (error) {
