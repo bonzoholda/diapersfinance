@@ -62,10 +62,13 @@ const DYPR = ({
   return (
     <Flex
       rounded={20}
-      bg="white"
+      bg="rgba(255, 255, 255, 0.12)"
+      backdropFilter="blur(10px)"
+      border="1px solid rgba(255, 255, 255, 0.2)"
+      boxShadow="0 8px 32px 0 rgba(0, 0, 0, 0.25)"
       px={6}
       py={5}
-      color="brand.purple"
+      color="white" // Diubah ke white agar teks lebih terbaca di atas kaca gelap
       justifyContent="flex-start"
       alignItems="center"
       flexDirection="column"
