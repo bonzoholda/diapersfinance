@@ -82,7 +82,7 @@ const MATICInput = ({
           )}
         </NumberInput>
         <Text fontWeight="semibold" as="span">
-          MATIC
+          POL
         </Text>
       </HStack>
       <Flex w="100%" justifyContent="flex-end">
