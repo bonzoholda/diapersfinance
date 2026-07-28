@@ -111,7 +111,7 @@ const GOLDBuyer = ({
               startColor="brand.orange"
               endColor="brand.purple"
             >
-              {numeral(MATICBalance).format('0,0.000')} MATIC
+              {numeral(MATICBalance).format('0,0.000')} POL
             </Skeleton>
           </HStack>
         </Text>
@@ -145,7 +145,7 @@ const GOLDBuyer = ({
           setLoadingTX(false);
         }}
       >
-        {goldenShitPrice * buyAmount} MATIC
+        {goldenShitPrice * buyAmount} POL
       </Button>
     </Flex>
   );
