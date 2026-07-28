@@ -332,7 +332,7 @@ const DYPRSwapper = ({
 
       <Text color="brand.orange" as="span">
         You'll receive ≈ {formatter12.format(amountOut * (buy ? 0.97 : 0.67))}{' '}
-        {buy ? 'DYPR' : 'MATIC'} after tax
+        {buy ? 'DYPR' : 'POL'} after tax
       </Text>
     </Flex>
   );
