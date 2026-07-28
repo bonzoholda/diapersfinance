@@ -6,7 +6,7 @@ import WalletConnectProvider from '@walletconnect/web3-provider';
 export const Context = createContext();
 
 // Menggunakan RPC publik yang lebih stabil atau URL Alchemy/Infura Anda
-const POLYGON_RPC_URL = 'https://polygon-rpc.com';
+const POLYGON_RPC_URL = 'https://1rpc.io/matic';
 
 const web3Modal = new Web3Modal({
   cacheProvider: true,
@@ -39,7 +39,7 @@ const ContextProvider = ({ children }) => {
           chainName: 'Polygon Mainnet',
           rpcUrls: [
             POLYGON_RPC_URL,
-            'https://rpc-mainnet.maticvigil.com',
+            'https://1rpc.io/matic',
             'https://rpc.ankr.com/polygon',
           ],
           nativeCurrency: {
