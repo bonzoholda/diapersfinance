@@ -154,8 +154,11 @@ const GOLD = ({
                     color="white"
                     fontFeatureSettings='"tnum"'
                   >
-                    10 POL
+                    10
                   </Text>
+                    <Text fontSize="xs" fontWeight="semibold" color="brand.orange">
+                      POL
+                    </Text>                      
                 </Skeleton>
                 <Skeleton
                   isLoaded={!loadingStats}
