@@ -68,7 +68,7 @@ const DYPR = ({
       boxShadow="0 8px 32px 0 rgba(0, 0, 0, 0.25)"
       px={6}
       py={5}
-      color="white" // Diubah ke white agar teks lebih terbaca di atas kaca gelap
+      color="white"
       justifyContent="flex-start"
       alignItems="center"
       flexDirection="column"
@@ -86,7 +86,7 @@ const DYPR = ({
           <HStack spacing={20}>
             <HStack
               spacing={10}
-              divider={<StackDivider borderColor="gray.200" />}
+              divider={<StackDivider borderColor="whiteAlpha.300" />}
             >
               <VStack>
                 <Image
@@ -155,51 +155,77 @@ const DYPR = ({
                   </Tooltip>
                 </ButtonGroup>
               </VStack>
-              <VStack spacing={0}>
-                <Text fontWeight="semibold" as="span">
+
+              {/* Stat 1: Price */}
+              <VStack spacing={0} align="flex-start">
+                <Text
+                  fontSize="xs"
+                  fontWeight="normal"
+                  color="whiteAlpha.700"
+                  textTransform="uppercase"
+                  letterSpacing="wider"
+                >
                   Price
                 </Text>
-                <Text fontWeight="semibold" as="span">
-                  <HStack>
-                    <Skeleton
-                      isLoaded={!loadingStats}
-                      startColor="brand.orange"
-                      endColor="brand.purple"
-                    >
-                      {numeral(DYPRPrice * MATICPrice).format('$0,0.00')}
-                    </Skeleton>
-                  </HStack>
-                </Text>
+                <Skeleton
+                  isLoaded={!loadingStats}
+                  startColor="brand.orange"
+                  endColor="brand.purple"
+                >
+                  <Text
+                    fontSize="xl"
+                    fontWeight="bold"
+                    color="white"
+                    fontFeatureSettings='"tnum"'
+                  >
+                    {numeral(DYPRPrice * MATICPrice).format('$0,0.00')}
+                  </Text>
+                </Skeleton>
               </VStack>
-              <VStack spacing={0}>
-                <Text fontWeight="semibold" as="span">
+
+              {/* Stat 2: Pool Balance */}
+              <VStack spacing={0} align="flex-start">
+                <Text
+                  fontSize="xs"
+                  fontWeight="normal"
+                  color="whiteAlpha.700"
+                  textTransform="uppercase"
+                  letterSpacing="wider"
+                >
                   Pool Balance
                 </Text>
-                <Text fontWeight="semibold" as="span">
-                  <HStack>
-                    <Skeleton
-                      isLoaded={!loadingStats}
-                      startColor="brand.orange"
-                      endColor="brand.purple"
+                <Skeleton
+                  isLoaded={!loadingStats}
+                  startColor="brand.orange"
+                  endColor="brand.purple"
+                >
+                  <HStack spacing={1.5} align="baseline">
+                    <Text
+                      fontSize="xl"
+                      fontWeight="bold"
+                      color="white"
+                      fontFeatureSettings='"tnum"'
                     >
                       {formatter3.format(shitPoolDYPRBalance)}
-                    </Skeleton>
-                    <Text as="span">DYPR</Text>
+                    </Text>
+                    <Text fontSize="xs" fontWeight="semibold" color="brand.orange">
+                      DYPR
+                    </Text>
                   </HStack>
-                </Text>
-                <Text as="span">
-                  <Skeleton
-                    isLoaded={!loadingStats}
-                    startColor="brand.orange"
-                    endColor="brand.purple"
-                  >
+                </Skeleton>
+                <Skeleton
+                  isLoaded={!loadingStats}
+                  startColor="brand.orange"
+                  endColor="brand.purple"
+                >
+                  <Text fontSize="xs" color="whiteAlpha.600" fontFeatureSettings='"tnum"'>
                     (
                     {numeral(
                       shitPoolDYPRBalance * DYPRPrice * MATICPrice
                     ).format('$0,0.00')}
                     )
-                  </Skeleton>
-                </Text>
+                  </Text>
+                </Skeleton>
               </VStack>
             </HStack>
             <IconButton
@@ -207,7 +233,7 @@ const DYPR = ({
               icon={
                 <Icon
                   as={isOpen ? FaChevronUp : FaChevronDown}
-                  color="brand.purple"
+                  color="whiteAlpha.800"
                   w={6}
                   h={6}
                 />
@@ -215,8 +241,9 @@ const DYPR = ({
             />
           </HStack>
         </Show>
+
         <Show breakpoint="(max-width: 767px)">
-          <VStack>
+          <VStack spacing={4}>
             <VStack>
               <Image
                 src={require('../assets/dypr.png')}
@@ -283,62 +310,84 @@ const DYPR = ({
                 icon={
                   <Icon
                     as={isOpen ? FaChevronUp : FaChevronDown}
-                    color="brand.purple"
+                    color="whiteAlpha.800"
                     w={6}
                     h={6}
                   />
                 }
               />
             </VStack>
-            <Wrap spacingX={10} justify="center">
+            <Wrap spacingX={8} spacingY={4} justify="center">
               <WrapItem>
-                <VStack spacing={0}>
-                  <Text fontWeight="semibold" as="span">
+                <VStack spacing={0} align="center">
+                  <Text
+                    fontSize="xs"
+                    fontWeight="normal"
+                    color="whiteAlpha.700"
+                    textTransform="uppercase"
+                    letterSpacing="wider"
+                  >
                     Price
                   </Text>
-                  <Text fontWeight="semibold" as="span">
-                    <HStack>
-                      <Skeleton
-                        isLoaded={!loadingStats}
-                        startColor="brand.orange"
-                        endColor="brand.purple"
-                      >
-                        {numeral(DYPRPrice * MATICPrice).format('$0,0.00')}
-                      </Skeleton>
-                    </HStack>
-                  </Text>
+                  <Skeleton
+                    isLoaded={!loadingStats}
+                    startColor="brand.orange"
+                    endColor="brand.purple"
+                  >
+                    <Text
+                      fontSize="xl"
+                      fontWeight="bold"
+                      color="white"
+                      fontFeatureSettings='"tnum"'
+                    >
+                      {numeral(DYPRPrice * MATICPrice).format('$0,0.00')}
+                    </Text>
+                  </Skeleton>
                 </VStack>
               </WrapItem>
               <WrapItem>
-                <VStack spacing={0}>
-                  <Text fontWeight="semibold" as="span">
+                <VStack spacing={0} align="center">
+                  <Text
+                    fontSize="xs"
+                    fontWeight="normal"
+                    color="whiteAlpha.700"
+                    textTransform="uppercase"
+                    letterSpacing="wider"
+                  >
                     Pool Balance
                   </Text>
-                  <Text fontWeight="semibold" as="span">
-                    <HStack>
-                      <Skeleton
-                        isLoaded={!loadingStats}
-                        startColor="brand.orange"
-                        endColor="brand.purple"
+                  <Skeleton
+                    isLoaded={!loadingStats}
+                    startColor="brand.orange"
+                    endColor="brand.purple"
+                  >
+                    <HStack spacing={1.5} align="baseline">
+                      <Text
+                        fontSize="xl"
+                        fontWeight="bold"
+                        color="white"
+                        fontFeatureSettings='"tnum"'
                       >
                         {formatter3.format(shitPoolDYPRBalance)}
-                      </Skeleton>
-                      <Text as="span">DYPR</Text>
+                      </Text>
+                      <Text fontSize="xs" fontWeight="semibold" color="brand.orange">
+                        DYPR
+                      </Text>
                     </HStack>
-                  </Text>
-                  <Text as="span">
-                    <Skeleton
-                      isLoaded={!loadingStats}
-                      startColor="brand.orange"
-                      endColor="brand.purple"
-                    >
+                  </Skeleton>
+                  <Skeleton
+                    isLoaded={!loadingStats}
+                    startColor="brand.orange"
+                    endColor="brand.purple"
+                  >
+                    <Text fontSize="xs" color="whiteAlpha.600" fontFeatureSettings='"tnum"'>
                       (
                       {numeral(
                         shitPoolDYPRBalance * DYPRPrice * MATICPrice
                       ).format('$0,0.00')}
                       )
-                    </Skeleton>
-                  </Text>
+                    </Text>
+                  </Skeleton>
                 </VStack>
               </WrapItem>
             </Wrap>
