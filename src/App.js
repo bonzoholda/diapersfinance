@@ -66,7 +66,7 @@ const config = {
 };
 const fonts = {
   heading: `'Plus Jakarta Sans', 'Inter', -apple-system, sans-serif`,
-  body: `'Inter', -apple-system, BlinkMacSystemFont, sans-serif`,
+  body: `'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif`,
 };
 
 const styles = {
