@@ -11,7 +11,7 @@ const web3Modal = new Web3Modal({
       package: WalletConnectProvider, // required
       options: {
         rpc: {
-          137: 'https://polygon-rpc.com',
+          137: 'https://rpc.private.mev-x.com/polygon',
         },
         supportedChainIds: [137],
       },
