@@ -154,7 +154,7 @@ const GOLD = ({
                     color="white"
                     fontFeatureSettings='"tnum"'
                   >
-                    10 MATIC
+                    10 POL
                   </Text>
                 </Skeleton>
                 <Skeleton
